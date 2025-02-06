@@ -47,11 +47,9 @@ workflows:
     jobs:
       - job1
       - trigger-pipeline:
-          organization: "9HHVLVhnSHV6JkkVsHSV9T"
-          project: "LN4tXvvTb5geSHXYY3hVnX"
-          definition_id: "4ba9f7ae-dd68-4b80-ab3a-580dfbec1c45"
-          context:
-            - user-token
+          organization: {{ .OrganizationName }}
+          project: {{ .ProjectName }}
+          definition_id: {{ .DefinitionID }}
   no-op-workflow:
     when: <<pipeline.parameters.no-op>>
     jobs:
