@@ -5,13 +5,13 @@ parameters:
 
 version: 2.1
 executors:
-  alpine:
+  cimg:
     docker:
-      - image: alpine:3.21
+      - image: cimg/base:2025.02
 jobs:
   job1:
     executor:
-      name: alpine
+      name: cimg
     steps:
       - run:
           name: "Setup Completed"
