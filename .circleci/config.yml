@@ -1,0 +1,55 @@
+parameters:
+  no-op:
+    type: boolean
+    default: false
+
+version: 2.1
+executors:
+  alpine:
+    docker:
+      - image: alpine:3.21
+jobs:
+  job1:
+    executor:
+      name: alpine
+    steps:
+      - run:
+          name: "Setup Completed"
+          command: echo "Setup Completed"
+      - checkout
+      - run: sleep 60
+  trigger-pipeline:
+    executor:
+      name: alpine
+    parameters:
+      organzation:
+        type: string
+      project:
+        type: string
+      definition_id:
+        type: string
+    steps:
+      - run:
+          name: Trigger Pipeline For Auto Cancel
+          command: |
+            curl --request POST \
+            --url https://circleci.com/api/v2/project/<<pipeline.integration-source>>/<<parameters.organzation>>/<<parameters.project>>/pipeline/run \
+            --header 'content-type: application/json' \
+            --data '{"definition_id":"<<parameters.definition_id>>","config":{"branch":"<<pipeline.git.branch>>"},"checkout":{"branch":"<<pipeline.git.branch>>"},"parameters":{"no-op":true}}'
+  no-op:
+    type: no-op
+
+workflows:
+  version: 2
+  auto-cancel-workflow:
+    unless: <<pipeline.parameters.no-op>>
+    jobs:
+      - job1
+      - trigger-pipeline:
+          organization: "9HHVLVhnSHV6JkkVsHSV9T"
+          project: "LN4tXvvTb5geSHXYY3hVnX"
+          definition_id: "4ba9f7ae-dd68-4b80-ab3a-580dfbec1c45"
+  no-op-workflow:
+    when: <<pipeline.parameters.no-op>>
+    jobs:
+      - no-op
