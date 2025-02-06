@@ -33,7 +33,7 @@ jobs:
           name: Trigger Pipeline For Auto Cancel
           command: |
             curl --request POST \
-            --url https://circleci.com/api/v2/project/<<pipeline.integration-source>>/<<parameters.organization>>/<<parameters.project>>/pipeline/run \
+            --url https://circleci.com/api/v2/project/<<pipeline.vcs.type>>/<<parameters.organization>>/<<parameters.project>>/pipeline/run \
             --header 'content-type: application/json' \
             --data '{"definition_id":"<<parameters.definition_id>>","config":{"branch":"<<pipeline.git.branch>>"},"checkout":{"branch":"<<pipeline.git.branch>>"},"parameters":{"no-op":true}}'
   no-op:
