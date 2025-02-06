@@ -20,7 +20,7 @@ jobs:
       - run: sleep 60
   trigger-pipeline:
     executor:
-      name: alpine
+      name: cimg
     parameters:
       organization:
         type: string
