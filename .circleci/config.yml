@@ -3,7 +3,6 @@ parameters:
     type: boolean
     default: false
 
-version: 2.1
 executors:
   cimg:
     docker:
@@ -43,7 +42,7 @@ jobs:
 workflows:
   version: 2
   auto-cancel-workflow:
-    unless: <<pipeline.parameters.no-op>>
+    unless: pipeline.parameters.no-op
     jobs:
       - job1
       - trigger-pipeline:
@@ -53,6 +52,6 @@ workflows:
           context:
             - user-token
   no-op-workflow:
-    when: <<pipeline.parameters.no-op>>
+    when: pipeline.parameters.no-op
     jobs:
       - no-op
